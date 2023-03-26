@@ -147,7 +147,7 @@ jobs:
                   ]
                 }
           event: fail
-          template: basic_fail_1
+
 #
   # deploy-infrastructure:
   #   docker:
