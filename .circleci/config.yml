@@ -1,6 +1,7 @@
 version: 2.1
 
 orbs:
+  node: 'circleci/node:4.1'
   slack: circleci/slack@4.12.1
 
 commands:
@@ -134,7 +135,6 @@ jobs:
           channel: CircleCI 
           event: fail
           template: basic_fail_1
-
 
   # deploy-infrastructure:
   #   docker:
