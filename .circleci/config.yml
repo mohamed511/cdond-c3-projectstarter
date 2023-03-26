@@ -131,21 +131,6 @@ jobs:
              npm audit --audit-level=critical
              exit 1
       - slack/notify:
-          custom: |
-                {
-                  "blocks": [
-                    {
-                      "type": "section",
-                      "fields": [
-                        {
-                          "type": "plain_text",
-                          "text": "*helloooooo*",
-                          "emoji": true
-                        }
-                      ]
-                    }
-                  ]
-                }
           event: fail
           template: basic_fail_1
 #
