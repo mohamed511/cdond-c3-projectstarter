@@ -131,30 +131,23 @@ jobs:
              npm audit --audit-level=critical
              exit 1
       - slack/notify:
-          event: fail
-          template: basic_fail_1
-
-  notify:
-    docker:
-      - image: 'cimg/base:stable'
-    steps:
-      - slack/notify:
           custom: |
-            {
-              "blocks": [
                 {
-                  "type": "section",
-                  "fields": [
+                  "blocks": [
                     {
-                      "type": "plain_text",
-                      "text": "*helloooooo*",
-                      "emoji": true
+                      "type": "section",
+                      "fields": [
+                        {
+                          "type": "plain_text",
+                          "text": "*helloooooo*",
+                          "emoji": true
+                        }
+                      ]
                     }
                   ]
                 }
-              ]
-            }
-          event: always
+          event: fail
+          template: basic_fail_1
 #
   # deploy-infrastructure:
   #   docker:
@@ -335,9 +328,6 @@ workflows:
           requires: [build-backend]
       - scan-frontend:
           requires: [build-frontend]
-      - notify:
-          context: slack-secrets
-
       # - deploy-infrastructure:
       #     requires: [test-frontend, test-backend, scan-frontend, scan-backend]
       #     filters:
