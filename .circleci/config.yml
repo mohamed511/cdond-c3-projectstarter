@@ -131,7 +131,7 @@ jobs:
              npm audit --audit-level=critical
              exit 1
       - slack/notify:
-          channel: project3 
+          channel: C0506G37PB7 
           event: fail
           template: basic_fail_1
 
