@@ -131,7 +131,6 @@ jobs:
              npm audit --audit-level=critical
              exit 1
       - slack/notify:
-          channel: C0506G37PB7 
           event: fail
           template: basic_fail_1
 
@@ -148,7 +147,7 @@ jobs:
                   "fields": [
                     {
                       "type": "plain_text",
-                      "text": "*This is a text notification*",
+                      "text": "*helloooooo*",
                       "emoji": true
                     }
                   ]
