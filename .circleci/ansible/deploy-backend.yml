@@ -29,10 +29,7 @@
       become: true
       raw: test -e /usr/bin/python3 || (apt -y update && install -y python3)    
       changed_when: false
-
-
     - setup:
-
 
   roles:
     - deploy
