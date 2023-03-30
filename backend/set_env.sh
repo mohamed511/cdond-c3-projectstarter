@@ -7,5 +7,5 @@ export TYPEORM_MIGRATIONS=./migrations/*{.ts,.js}
 export TYPEORM_HOST=localhost
 export TYPEORM_PORT=5532
 export TYPEORM_USERNAME=postgres
-export TYPEORM_PASSWORD=123456789
-export TYPEORM_DATABASE=postgres
+export TYPEORM_PASSWORD=password
+export TYPEORM_DATABASE=glee
