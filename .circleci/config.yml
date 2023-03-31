@@ -352,39 +352,39 @@ jobs:
       - destroy-environment
       - revert-migrations
 
-smoke-test:
-    docker:
-      - image: amazon/aws-cli
-    steps:
-      # - checkout
-      - run:
-          name: Backend smoke test.
-          command: |
-            export BACKEND_PUBLIC_IP=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
-            # URL="http://$BACKEND_PUBLIC_IP:3030/api/status"
-            URL="http://g00gle.com"
-            if curl -s --head ${URL}
-            then
-              echo "It worked!"
-              exit 0
-            else
-              echo "Rolling Back"
-              exit 1
-            fi
-      - run:
-          name: Frontend smoke test.
-          command: |
-            FRONTEND_WEBSITE=http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com
-            if curl -s $FRONTEND_WEBSITE | grep "Welcome"
-            then
-              exit 0
-            else
-              exit 1
-            fi
+  smoke-test:
+      docker:
+        - image: amazon/aws-cli
+      steps:
+        # - checkout
+        - run:
+            name: Backend smoke test.
+            command: |
+              export BACKEND_PUBLIC_IP=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+              # URL="http://$BACKEND_PUBLIC_IP:3030/api/status"
+              URL="http://g00gle.com"
+              if curl -s --head ${URL}
+              then
+                echo "It worked!"
+                exit 0
+              else
+                echo "Rolling Back"
+                exit 1
+              fi
+        - run:
+            name: Frontend smoke test.
+            command: |
+              FRONTEND_WEBSITE=http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com
+              if curl -s $FRONTEND_WEBSITE | grep "Welcome"
+              then
+                exit 0
+              else
+                exit 1
+              fi
 
-      - notify_on_failure
-      - destroy-environment
-      - revert-migrations          
+        - notify_on_failure
+        - destroy-environment
+        - revert-migrations          
 
   cloudfront-update:
     docker:
