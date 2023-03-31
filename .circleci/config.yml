@@ -223,22 +223,26 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: cimg/base:stable
+      - image: mareimorsy/aws-node
     steps:
       - checkout
-      - install_ansible
       - add_ssh_keys:
           fingerprints: ["47:8e:98:4f:33:59:16:65:5a:6a:da:e5:c3:2e:26:e6"]
-      - attach_workspace:
-          at: ~/
+      # - run:
+      #     name: "Install Dependencies"
+      #     command: |
+      #       apk add ansible gzip openssh-client
+      # - attach_workspace:
+      #     at: ~/
       - run:
           name: Configure server
           command: |
+            ls
+            pwd
             cd .circleci/ansible
+            aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
             cat inventory.txt
-            ansible-playbook -i inventory.txt configure-server.yml
-      
-      - destroy-environment      
+            ansible-playbook -i inventory.txt configure-server.yml -vv    
      
 
   run-migrations:
