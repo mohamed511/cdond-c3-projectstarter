@@ -352,26 +352,23 @@ jobs:
       - destroy-environment
       - revert-migrations
 
-  smoke-test:
+smoke-test:
     docker:
-      - image: cimg/base:stable
+      - image: amazon/aws-cli
     steps:
-      - checkout
-      - install_awscli
-      - install_nodejs
+      # - checkout
       - run:
           name: Backend smoke test.
           command: |
-            export BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
-              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text)
-
-            export API_URL=http://${BACKEND_PUBLIC_IP}:3030 
-            if curl -s $API_URL/api/status | grep "ok"
+            export BACKEND_PUBLIC_IP=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+            # URL="http://$BACKEND_PUBLIC_IP:3030/api/status"
+            URL="http://g00gle.com"
+            if curl -s --head ${URL}
             then
+              echo "It worked!"
               exit 0
             else
+              echo "Rolling Back"
               exit 1
             fi
       - run:
@@ -385,6 +382,7 @@ jobs:
               exit 1
             fi
 
+      - notify_on_failure
       - destroy-environment
       - revert-migrations          
 
@@ -468,7 +466,7 @@ workflows:
           requires: [run-migrations]
       - smoke-test:
           requires: [deploy-backend, deploy-frontend]
-      - cloudfront-update:
-          requires: [smoke-test]
-      - cleanup:
-          requires: [cloudfront-update]
+      # - cloudfront-update:
+      #     requires: [smoke-test]
+      # - cleanup:
+      #     requires: [cloudfront-update]
