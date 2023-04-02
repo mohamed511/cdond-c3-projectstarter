@@ -371,6 +371,13 @@ jobs:
                 echo "Rolling Back"
                 exit 1
               fi
+
+        - slack/notify:
+          event: fail
+          template: basic_fail_1
+        - destroy_environment
+        - revert-migrations
+
         - run:
             name: Frontend smoke test.
             command: |
